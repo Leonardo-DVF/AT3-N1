@@ -12,7 +12,33 @@ import java.text.ParseException;
 
 public final class formHotel extends javax.swing.JFrame {
 
-//Insira os métodos aqui
+    //===================================================================================================
+    //INÍCIO DO BLOCO
+    //===================================================================================================
+    
+    //MÉTODO PARA A LISTA DE QUARTOS DISPONÍVEIS
+    private List<ClassQuarto> listaQuartosDisponiveis = new ArrayList<ClassQuarto>();
+    
+    public List<ClassQuarto> getListaQuartosDisponiveis() {
+        return listaQuartosDisponiveis;
+    }
+
+    public void setListaQuartosDisponiveis(List<ClassQuarto> listaQuartosDisponiveis) {
+        this.listaQuartosDisponiveis = listaQuartosDisponiveis;
+    }
+    
+    //MÉTODO PARA A LISTA DE HÓSPEDES
+    private List<ClassHospede> listaHospedes = new ArrayList<ClassHospede>();
+    
+    public List<ClassHospede> getListaHospedes() {
+        return listaHospedes;
+    }
+
+    public synchronized void setListaHospedes(List<ClassHospede> listaHospedes) {
+        this.listaHospedes = listaHospedes;
+    }
+
+//Insira os outros métodos aqui
 
 
     /**

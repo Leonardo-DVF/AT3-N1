@@ -99,6 +99,45 @@ public final class formHotel extends javax.swing.JFrame {
         }
     }
 
+    //METODO PARA ADICIONAR HOSPEDE
+    public synchronized void adicionarHospede(String tName, List<ClassHospede> listaHospedesAtual){
+        try{
+            ClassHospede novoHospede = new ClassHospede();
+            novoHospede.setNomeHospede(tName);
+            novoHospede.setHospedeAtendido(false);
+            novoHospede.setQtdePessoas(new Random().nextInt(1,8));
+            listaHospedesAtual.add(novoHospede);
+            this.setListaHospedes(listaHospedesAtual);
+        }catch(Exception e){}
+    }
+    
+    //MÉTODOS PARA O RECEPCIONISTA
+    public void criarRecepcionista(String grupoThread, int qtdeRecepcionista){
+        String treadName = null;
+        Runnable runRecepcionista = new Runnable() {
+            private volatile boolean isRunning = true;
+            public void run(){
+                try{
+                    Thread.sleep(1000);
+                    realizarAtendimento(Thread.currentThread().getName());
+                }catch(Exception err){}
+            }
+            
+            public void kill(){
+                isRunning = false;
+            }
+        };
+        
+        System.out.println("OK - Recepcionistas prontos para o atendimento! ");
+        Thread.currentThread().setName(grupoThread);
+        for ( int i=0; i< qtdeRecepcionista; i++){
+            treadName = "Recepcionista "+i;
+            Thread t = new Thread(runRecepcionista);
+            t.setName(treadName);
+            t.start();
+        }
+    }  
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

@@ -38,7 +38,19 @@ public final class formHotel extends javax.swing.JFrame {
         this.listaHospedes = listaHospedes;
     }
 
-//Insira os outros métodos aqui
+    //MÉTODO PARA A LISTA DE RECLAMAÇÃO
+    private List<ClassReclamacao> listaReclamacao = new ArrayList<ClassReclamacao>();
+
+    public List<ClassReclamacao> getListaReclamacao() {
+        return listaReclamacao;
+    }
+
+    public synchronized void setListaReclamacao(List<ClassReclamacao> listaReclamacao) {
+        this.listaReclamacao = listaReclamacao;
+    }
+    //===================================================================================================
+    // FIM DAS VARIÁVEIS DE LISTA
+    //===================================================================================================
 
 
     /**

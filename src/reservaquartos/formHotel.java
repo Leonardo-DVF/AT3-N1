@@ -177,6 +177,36 @@ public final class formHotel extends javax.swing.JFrame {
             
         }    
     }
+
+    //MÉTODOS PARA ALOCAR QUARTOS
+    public synchronized Boolean alocarQuarto(int qtdePessoas, int i, String tNameHospede, int qtdeQuartosNecessarios){
+       Boolean reservou = false;
+       List<ClassQuarto> listaQuartos = getListaQuartosDisponiveis();
+       if(qtdeQuartosNecessarios>1){
+           listaQuartos.get(i).setQtdeHospedesPorQuarto(4);
+           listaQuartos.get(i).setNomeHospedesPorQuarto(tNameHospede + "(" + qtdePessoas + ")");
+           listaQuartos.get(i).setQuartoDisponivel(false);
+           listaQuartos.get(i).setChaveRecepcao(false);
+           listaQuartos.get(i).setStatusQuarto("OCUPADO");
+           i = i+1;
+           listaQuartos.get(i).setQtdeHospedesPorQuarto(qtdePessoas - 4);
+           listaQuartos.get(i).setNomeHospedesPorQuarto(tNameHospede + "(" + qtdePessoas + ")");
+           listaQuartos.get(i).setQuartoDisponivel(false);
+           listaQuartos.get(i).setChaveRecepcao(false);
+           listaQuartos.get(i).setStatusQuarto("OCUPADO");
+           atualizarModelTable(listaQuartos);
+           reservou = true;
+       }else{
+           listaQuartos.get(i).setQtdeHospedesPorQuarto(qtdePessoas);
+           listaQuartos.get(i).setNomeHospedesPorQuarto(tNameHospede + "(" + qtdePessoas + ")");
+           listaQuartos.get(i).setQuartoDisponivel(false);
+           listaQuartos.get(i).setChaveRecepcao(false);
+           listaQuartos.get(i).setStatusQuarto("OCUPADO");
+           atualizarModelTable(listaQuartos);
+           reservou = true;
+       }
+       return reservou;
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.

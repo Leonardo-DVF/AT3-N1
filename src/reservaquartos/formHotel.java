@@ -51,7 +51,53 @@ public final class formHotel extends javax.swing.JFrame {
     //===================================================================================================
     // FIM DAS VARIÁVEIS DE LISTA
     //===================================================================================================
-
+    
+    //===================================================================================================
+    // BLOCO DE FUNCIONÁRIOS
+    //===================================================================================================
+    //MÉTODOS PARA CRIAÇÃO DO HÓSPEDE
+    public synchronized void criarHospede(String grupoThread, int qtdeHospede){
+        Runnable runHospede =  new Runnable() {
+            public void run(){
+                try{
+                    Thread.sleep(100);
+                    checkinHospede(Thread.currentThread().getName());
+                }catch(Exception err){
+                    err.printStackTrace();
+                }
+            }
+        };
+        
+        String nameHospede = null;
+        
+        System.out.println("OK - Hóspedes procurando estadia! ");
+        jcb_HospedeSelecao.removeAllItems();
+        Thread.currentThread().setName(grupoThread);
+        for ( int i=0; i< qtdeHospede; i++){
+            Thread t = new Thread(runHospede);
+            t.setName("Hospede "+i);
+            t.start();
+            jcb_HospedeSelecao.addItem("Hospede " + i);
+        }
+    }  
+    
+    //MÉTODOS PARA O CHECKIN DOS HÓSPEDES
+    public synchronized void checkinHospede(String tName){
+        List<ClassHospede> listaHospedesAtual = getListaHospedes();
+        //Adiciona o primeiro hóspede
+        if(listaHospedesAtual.isEmpty()) {
+            adicionarHospede(tName, listaHospedesAtual);
+        }else{
+            for(int i = 0; i < listaHospedesAtual.size();i++){
+                if(!listaHospedesAtual.get(i).getNomeHospede().contains(tName)){
+                    adicionarHospede(tName, listaHospedesAtual);
+                    break;
+                }else{
+                    JOptionPane.showMessageDialog(null,"Hóspede Já cadastrado","Atenção",2);
+                }
+            }
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.

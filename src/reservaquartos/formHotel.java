@@ -138,6 +138,46 @@ public final class formHotel extends javax.swing.JFrame {
         }
     }  
 
+    //MÉTODOS PARA REALIZAR O ATENDIMENTO
+    public synchronized void realizarAtendimento(String tName){
+        List<ClassHospede> listaHospedes = getListaHospedes();   
+            for(int i=0; i<listaHospedes.size();i++){
+                if(listaHospedes.get(i).getHospedeAtendido() == false){
+                    //Arredonda os quartos para um número inteiro
+                    double qQuartos = ((double) listaHospedes.get(i).getQtdePessoas()/ 4);
+                    int qtdeQuartosNecessarios = (int) Math.ceil(qQuartos);
+                    realizarReserva(tName, listaHospedes.get(i).getNomeHospede(), listaHospedes.get(i).getQtdePessoas(), qtdeQuartosNecessarios);
+                    listaHospedes.get(i).setHospedeAtendido(true);
+                    setListaHospedes(listaHospedes);
+                }
+            }        
+    }
+    
+    //MÉTODOS PARA REALIZAR A RESERVA
+    public synchronized void realizarReserva(String tName, String tNameHospede, int qdePessoas, int qtdeQuartosNecessarios){
+        try{
+            List<ClassQuarto> listaQuartos = getListaQuartosDisponiveis();
+            Boolean realizouReserva = false;
+            int qtdeTentativas = 0;
+            
+                for(int vTentativas = 0; vTentativas < 2; vTentativas++){
+                    for(int i = 0; i < listaQuartos.size();i++){
+                        if(!realizouReserva){
+                            if(listaQuartos.get(i).getQuartoDisponivel()){
+                                realizouReserva = alocarQuarto(qdePessoas,i,tNameHospede,qtdeQuartosNecessarios);
+                            }
+                        }
+
+                        if(realizouReserva) break;
+                    }                    
+                    if(realizouReserva) break;
+                    else if(vTentativas == 1) registraReclamacao(tNameHospede, "Hotel é muito ruim. Não consegui realizar a reserva!");
+                }
+        }catch(Exception e){
+            
+        }    
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

@@ -208,7 +208,7 @@ public final class formHotel extends javax.swing.JFrame {
        return reservou;
     }
 
-//MÉTODOS PARA REGISTRAR A RECLAMAÇÃO
+    //MÉTODOS PARA REGISTRAR A RECLAMAÇÃO
     public void registraReclamacao(String tNameHospede, String declaracaoReclamacao){
         List<ClassReclamacao> listaReclamacao = getListaReclamacao();
         ClassReclamacao novaReclamacao = new ClassReclamacao();

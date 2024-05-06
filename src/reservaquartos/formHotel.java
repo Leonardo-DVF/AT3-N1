@@ -265,6 +265,67 @@ public final class formHotel extends javax.swing.JFrame {
         }
         System.out.println("OK - Camareiras monitorando os quartos! ");
     }
+
+    //MÉTODOS PARA FAZER A LIMPEZA DO QUARTO
+    public void realizarLimpezaQuarto(String grupoThread) throws InterruptedException{
+        try{
+            List<ClassQuarto> listaQuartos;
+            String nomeHospede = null;
+            Boolean atualizouTabela = false;
+            System.out.print(".");
+            
+            listaQuartos = getListaQuartosDisponiveis();
+            
+            for(int i=0; i<listaQuartos.size();i++){
+                if(listaQuartos.get(i).getStatusQuarto().equals("QUARTO PARA LIMPEZA") ){
+                    nomeHospede = listaQuartos.get(i).getNomeHospedesPorQuarto();
+                    listaQuartos.get(i).setChaveRecepcao(false);
+                    listaQuartos.get(i).setQuartoEmLimpeza(true);    
+                    listaQuartos.get(i).setStatusQuarto("EM LIMPEZA");
+
+                    Thread.sleep(3000);
+                    atualizarModelTable(listaQuartos);
+                    Thread.sleep(3000);
+
+                    listaQuartos.get(i).setQuartoEmLimpeza(false);
+                    listaQuartos.get(i).setChaveRecepcao(true);   
+                    listaQuartos.get(i).setStatusQuarto("QUARTO LIMPO");
+                    atualizarModelTable(listaQuartos);
+                }
+            } 
+
+            atualizouTabela = false;
+
+            listaQuartos = getListaQuartosDisponiveis();
+            for(int i=0; i<listaQuartos.size();i++){
+                if(listaQuartos.get(i).getStatusQuarto().equals("QUARTO LIMPO")){
+                    Thread.sleep(4000);
+                    listaQuartos.get(i).setChaveRecepcao(false);
+                    listaQuartos.get(i).setStatusQuarto("CLIENTE VOLTOU!");
+                    atualizouTabela = true;
+                }
+                
+                if(listaQuartos.get(i).getStatusQuarto().equals("QUARTO LIBERADO")){
+                    Thread.sleep(3000);
+                    listaQuartos.get(i).setChaveRecepcao(false);
+                    listaQuartos.get(i).setQuartoEmLimpeza(true);
+                    listaQuartos.get(i).setStatusQuarto("EM LIMPEZA (VAGO)");
+                    atualizarModelTable(listaQuartos);
+                    atualizouTabela = true;
+                }
+                if(listaQuartos.get(i).getStatusQuarto().equals("EM LIMPEZA (VAGO)")){
+                    Thread.sleep(3000);
+                    listaQuartos.get(i).setQuartoDisponivel(true);
+                    listaQuartos.get(i).setChaveRecepcao(true);
+                    listaQuartos.get(i).setQuartoEmLimpeza(false); 
+                    listaQuartos.get(i).setStatusQuarto("VAGO");
+                    atualizouTabela = true;
+                }
+            }
+            if(atualizouTabela) atualizarModelTable(listaQuartos);
+            atualizarTotais();
+        }catch(Exception e){}
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.

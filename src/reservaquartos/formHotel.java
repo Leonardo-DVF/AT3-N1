@@ -576,6 +576,28 @@ public final class formHotel extends javax.swing.JFrame {
         
         setTotaisTable(countHospedes,countRecepcionistas,countCamareiras);
     }
+    //Carregamento das Threads
+    public void carregarThreads(String threadGroup){
+        Set<Thread> threadSet = Thread.getAllStackTraces().keySet();
+        DefaultTableModel model = (DefaultTableModel) jtb_listaThreads.getModel();
+
+        while(model.getRowCount() > 0){
+            for(int i = 0; i < model.getRowCount();i++) {
+                model.removeRow(i);
+            }
+        }
+    
+        Set<Thread> setThreads = Thread.getAllStackTraces().keySet();
+        
+        for ( Thread t : setThreads){
+            if(t.getName().contains("Camareira") || t.getName().contains("Hospede") || t.getName().contains("Recepcionista"))    
+                model.addRow(new Object[]{t.getId(),t.getName(),t.getState()});
+        }
+    }
+    
+    //===================================================================================================
+    //FINAL DO BLOCO
+    //===================================================================================================
     
     /**
      * This method is called from within the constructor to initialize the form.

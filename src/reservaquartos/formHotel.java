@@ -441,6 +441,41 @@ public final class formHotel extends javax.swing.JFrame {
             );
         }
     }
+
+    //Atualizar passeioHospede
+    public synchronized void atualizarPasseioHospede(){
+        List<ClassQuarto> listaAtualizadaPasseio = getListaQuartosDisponiveis();
+        
+        for(int i=0; i < listaAtualizadaPasseio.size();i++){
+            if(listaAtualizadaPasseio.get(i).getNomeHospedesPorQuarto().contains("" + jcb_HospedeSelecao.getSelectedItem())){
+                listaAtualizadaPasseio.get(i).setChaveRecepcao(true);
+                listaAtualizadaPasseio.get(i).setStatusQuarto("QUARTO PARA LIMPEZA");
+                atualizarModelTable(listaAtualizadaPasseio);
+            }            
+        }        
+    }
+    
+    //Atualizar quartos
+    public synchronized void liberarQuarto(){
+        List<ClassQuarto> listaAtualizadaQuartos = getListaQuartosDisponiveis();
+        
+        for(int i=0; i < listaAtualizadaQuartos.size();i++){
+            if(listaAtualizadaQuartos.get(i).getNomeHospedesPorQuarto().contains("" + jcb_HospedeSelecao.getSelectedItem())){
+                listaAtualizadaQuartos.get(i).setQuartoDisponivel(false);
+                listaAtualizadaQuartos.get(i).setQtdeHospedesPorQuarto(0);
+                listaAtualizadaQuartos.get(i).setNomeHospedesPorQuarto("");
+                listaAtualizadaQuartos.get(i).setChaveRecepcao(true);
+                listaAtualizadaQuartos.get(i).setStatusQuarto("QUARTO LIBERADO");
+                atualizarModelTable(listaAtualizadaQuartos);
+            }            
+        }        
+    }
+    
+    public void resetVariaveis(){
+        setListaReclamacao(new ArrayList<ClassReclamacao>());
+        jcb_HospedeSelecao.removeAllItems();
+        limparModelTableReclamacao();
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.

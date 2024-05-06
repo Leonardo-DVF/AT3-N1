@@ -542,6 +542,40 @@ public final class formHotel extends javax.swing.JFrame {
         limparModelTable();
         limparModelTableReclamacao();        
     }
+
+    //===================================================================================================
+    // BLOCO DE LOG
+    //===================================================================================================
+    
+    //Lista de hóspedes
+    public void imprimirListaHospedes(){
+        List<ClassHospede> listaH = getListaHospedes();
+                
+        if(listaH.isEmpty()){
+            //System.out.print("Lista vazia!");
+        }else{
+            for(int i = 0; i < listaH.size();i++){
+                System.out.println("Hóspede: " + listaHospedes.get(i).getNomeHospede() + ": Atendido: " + listaHospedes.get(i).getHospedeAtendido());
+            }
+        } 
+    }
+    
+    //Lista todas as threads
+    public void listarThreads(){
+        Set<Thread> threadSet = Thread.getAllStackTraces().keySet();
+        
+        int countHospedes = 0, countRecepcionistas = 0, countCamareiras = 0;
+        
+        for ( Thread t : threadSet){
+            if ( t.getThreadGroup() == Thread.currentThread().getThreadGroup()){
+                if(t.getName().contains("Hospede ")) countHospedes++;
+                if(t.getName().contains("Recepcionista ")) countRecepcionistas++;
+                if(t.getName().contains("Camareira ")) countCamareiras++;
+            }
+        }
+        
+        setTotaisTable(countHospedes,countRecepcionistas,countCamareiras);
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.

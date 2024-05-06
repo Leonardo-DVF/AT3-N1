@@ -391,6 +391,57 @@ public final class formHotel extends javax.swing.JFrame {
         ));
     }
     
+    //Atualizar o modelo da tabela
+    public synchronized void atualizarModelTable(List<ClassQuarto> listaQuartos){
+        limparModelTable();
+            
+        DefaultTableModel model = (DefaultTableModel) tQuartosHotel.getModel();
+        for(int i=0;i<listaQuartos.size();i++){
+            
+            String quartoDisponivel = "Não", quartoEmLimpeza = "Não", quartoChaveRecepcao = "Não", statusQuarto = "OCUPADO";
+
+            if(listaQuartos.get(i).getQuartoDisponivel() == true){ 
+                 quartoDisponivel = "Sim";
+            }
+
+            if(listaQuartos.get(i).getQuartoEmLimpeza() == true){ 
+                 quartoEmLimpeza = "Sim";
+            }
+            
+            if(listaQuartos.get(i).getChaveRecepcao() == true){ 
+                 quartoChaveRecepcao = "Sim";
+            }
+            
+            model.addRow(new Object[]
+                 {
+                     listaQuartos.get(i).getNrQuarto(),
+                     listaQuartos.get(i).getNomeQuarto(),
+                     quartoDisponivel,
+                     quartoEmLimpeza,
+                     quartoChaveRecepcao,
+                     listaQuartos.get(i).getStatusQuarto(),
+                     listaQuartos.get(i).getQtdeHospedesPorQuarto(),
+                     listaQuartos.get(i).getNomeHospedesPorQuarto()
+                 }
+            );
+        }
+    }
+    
+    //Atualizar o modelo da tabela de Reclamação
+    public synchronized void atualizarModelTableReclamacao(List<ClassReclamacao> listaReclamacao){
+        limparModelTableReclamacao();
+        
+        DefaultTableModel model = (DefaultTableModel) tReclamacoes.getModel();
+        for(int i=0;i<listaReclamacao.size();i++){
+            model.addRow(new Object[]
+                        {
+                            listaReclamacao.get(i).getNomeHospede(),
+                            listaReclamacao.get(i).getDescricacaoReclamacao()
+                        }
+            );
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

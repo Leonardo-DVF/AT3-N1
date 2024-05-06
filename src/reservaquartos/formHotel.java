@@ -372,6 +372,25 @@ public final class formHotel extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Quantidade de quartos deverá ser numérica e maior que zero (0)");
         }
     }
+
+    //Limpar o modelo da tabela
+    public void limparModelTable(){
+        String colunasReservaHotel[] = {"Nr Quarto","Nome Quarto","Disponivel","Quarto em Limpeza","Chave na Recepção?","Status","Qde Hospedes","Nome Hospedes"};
+        tQuartosHotel.setModel(new DefaultTableModel(
+            new Object [][] {},
+            colunasReservaHotel
+        ));
+    }
+    
+    //Limpar o modelo da tabela reclamação
+    public void limparModelTableReclamacao(){
+        String colunasReclamacao[] = {"Nome Hospede","Reclamação"};
+        tReclamacoes.setModel(new DefaultTableModel(
+            new Object [][] {},
+            colunasReclamacao
+        ));
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

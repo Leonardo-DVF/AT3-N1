@@ -326,7 +326,52 @@ public final class formHotel extends javax.swing.JFrame {
             atualizarTotais();
         }catch(Exception e){}
     }
-    
+
+    //===================================================================================================
+    // BLOCO CONTROLE TABELAS
+    //===================================================================================================
+
+    //Carrega a tabela inicial com modelo de colunas
+    public void carregarTabelaPrincipal(){
+        ClassQuarto novoQuarto = null;
+        
+        int qtdQuartosSolicitado = 0;
+        try{
+            setListaHospedes(new ArrayList<ClassHospede>());
+            setListaQuartosDisponiveis(new ArrayList<ClassQuarto>());
+            limparModelTable();
+            limparModelTableReclamacao();
+            
+            qtdQuartosSolicitado = Integer.parseInt("" + jtf_qtdQuartos.getValue());
+            //Criando os quartos
+            for(int i =1; i <= qtdQuartosSolicitado; i++){
+                novoQuarto = new ClassQuarto();
+
+                novoQuarto.setNrQuarto(i);
+                novoQuarto.setNomeQuarto("Quarto " + (200 + i));
+                novoQuarto.setQuartoDisponivel(true);
+                novoQuarto.setQuartoEmLimpeza(false);
+                novoQuarto.setChaveRecepcao(true);
+                novoQuarto.setStatusQuarto("VAGO");
+                novoQuarto.setQtdeHospedesPorQuarto(0);
+                novoQuarto.setNomeHospedesPorQuarto("");                
+
+                String quartoDisponivel = "Não", quartoEmLimpeza = "Não";
+
+                if(novoQuarto.getQuartoDisponivel() == true){ 
+                     quartoDisponivel = "Sim";
+                }
+
+                if(novoQuarto.getQuartoEmLimpeza() == true){ 
+                     quartoEmLimpeza = "Sim";
+                }
+
+                getListaQuartosDisponiveis().add(i-1, novoQuarto);
+            }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Quantidade de quartos deverá ser numérica e maior que zero (0)");
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

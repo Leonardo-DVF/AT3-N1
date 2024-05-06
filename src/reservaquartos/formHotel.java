@@ -515,6 +515,34 @@ public final class formHotel extends javax.swing.JFrame {
         }
     }
     
+    //Atualizar os totais do formulário
+    public void setTotaisTable(int qtdeHospedes,int qtdeRecepcionistas,int qtdeCamareiras){
+        jlb_totalHospedesTable.setText("" + qtdeHospedes);
+        jlb_totalRecepcionistasTable.setText("" + qtdeRecepcionistas);
+        jlb_totalCamareiras.setText("" + qtdeCamareiras);
+        atualizarTotais();
+    }
+    
+    public synchronized void atualizarTotais(){
+        DefaultTableModel modelTotal = (DefaultTableModel) tQuartosHotel.getModel();
+        int countQuartoDisponivel = 0; //, countQuartoEmLimpeza =0;
+        for(int i=0;i<modelTotal.getRowCount();i++){
+            if(modelTotal.getValueAt(i, 2).equals("Sim")) countQuartoDisponivel = countQuartoDisponivel + 1;
+        }
+        jlb_totalRecepcionistasTable1.setText("" + countQuartoDisponivel);      
+    }
+    //===================================================================================================
+    // BLOCO PRINCIPAL
+    //===================================================================================================
+    
+    public formHotel() {
+        initComponents();
+        
+        //Limpar as tabelas da aplicação
+        limparModelTable();
+        limparModelTableReclamacao();        
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

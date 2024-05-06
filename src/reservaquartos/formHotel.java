@@ -207,6 +207,64 @@ public final class formHotel extends javax.swing.JFrame {
        }
        return reservou;
     }
+
+//MÉTODOS PARA REGISTRAR A RECLAMAÇÃO
+    public void registraReclamacao(String tNameHospede, String declaracaoReclamacao){
+        List<ClassReclamacao> listaReclamacao = getListaReclamacao();
+        ClassReclamacao novaReclamacao = new ClassReclamacao();
+        
+        novaReclamacao.setNomeHospede(tNameHospede);
+        novaReclamacao.setDescricacaoReclamacao(declaracaoReclamacao);
+        
+        listaReclamacao.add(novaReclamacao);
+        atualizarModelTableReclamacao(listaReclamacao);
+        
+        //Remove quem fez a reclação do combo de simulação de hóspedes
+        for(int i=0; i < jcb_HospedeSelecao.getItemCount();i++){
+            if(jcb_HospedeSelecao.getItemAt(i).trim().equals(tNameHospede.toString().trim())) jcb_HospedeSelecao.removeItemAt(i);
+        }
+
+    }
+    
+    //MÉTODOS PARA A CAMAREIRA
+    public void criarCamareira(String grupoThread, int qtdeCamareira){
+        String treadName = null;
+        Runnable runCamareira = new Runnable() {
+            private volatile boolean isRunning = true;
+            @Override
+            public void run(){
+                try{
+                    Thread.sleep(1000);
+                    while(isRunning){
+                        realizarLimpezaQuarto(Thread.currentThread().getName());
+                    }                    
+                }catch(InterruptedException err){}
+            }
+            
+            public void kill(){
+                isRunning = false;
+            }
+        };
+        
+        Thread.currentThread().setName(grupoThread);
+        Boolean camareiraJaCriada = false;
+        for ( int i=0; i< qtdeCamareira; i++){
+            treadName = "Camareira "+i;
+            
+            Set<Thread> threadSet = Thread.getAllStackTraces().keySet();
+       
+            for ( Thread listaThreads : threadSet) 
+                if(listaThreads.getName().equals(treadName)) camareiraJaCriada = true;
+            
+            if(!camareiraJaCriada){
+                Thread t = new Thread(runCamareira);
+                t.setName(treadName);
+                t.start();
+                camareiraJaCriada = false;
+            }
+        }
+        System.out.println("OK - Camareiras monitorando os quartos! ");
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.

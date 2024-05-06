@@ -476,6 +476,44 @@ public final class formHotel extends javax.swing.JFrame {
         jcb_HospedeSelecao.removeAllItems();
         limparModelTableReclamacao();
     }
+
+    //===================================================================================================
+    // BLOCO LOAD
+    //===================================================================================================
+    
+    //Carrega as Threds de funcionários do hotel
+    public synchronized void carregarFuncionarios(){
+        try{
+            //Cria as camareiras
+            try{
+                criarCamareira("ThreadHotel",10);
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(null, "Quantidade de recepcionistas com problemas");
+            }
+            
+            //Cria os recepcionistas
+            try{
+                criarRecepcionista("ThreadHotel",5);
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(null, "Quantidade de recepcionistas com problemas");
+            }
+
+            //Cria os hospedes e tentar realizar a reserva na classe de hóspede, utilizando os métodos dessa classe
+            int qtdHospedessSolicitado = 0;
+            try{
+                qtdHospedessSolicitado = Integer.parseInt("" + jtf_qtdHospedes.getValue());
+                criarHospede("ThreadHotel",qtdHospedessSolicitado);
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(null, "Quantidade de hóspedes deverá ser numérica e maior que zero (0)");
+            }
+            
+            imprimirListaHospedes();
+           
+            listarThreads();
+        }catch(Exception e){
+            System.out.println("Error: " + e);
+        }
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
